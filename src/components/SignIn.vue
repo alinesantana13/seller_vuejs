@@ -24,15 +24,45 @@ function onSubmit(form: Event) {
 
 <template>
   <div>
-    <h1>Sign In</h1>
-    <form @submit.prevent="onSubmit">
-      <label>E-Mail: </label>
-      <input v-model="email" type="email"><br />
-      <label>Senha: </label>
-      <input v-model="password" type="password"><br />
-      <label>Remember Me: </label>
-      <input v-model="remember" type="checkbox" /><br />
-      <button type="submit" v-show="!awaiting">Sign In</button>
-    </form>
+    <div class="container_signin">
+      <div class="signin_title">
+        <h1>Sign In</h1>
+      </div>
+      <div class="signin_form">
+        <form @submit.prevent="onSubmit">
+          <label>E-Mail: </label>
+          <input class="form-control" v-model="email" type="email"><br />
+          <label>Senha: </label>
+          <input class="form-control" v-model="password" type="password"><br />
+          <div class="signin_remember">
+            <label class="form-check-label">Remember Me </label>
+            <input class="form-check-input" v-model="remember" type="checkbox" /><br />
+          </div>
+          <button class="btn btn-primary" type="submit" v-show="!awaiting">Sign In</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
+
+<style setup>
+.container_signin {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin_form {
+  width: 300px;
+}
+
+.signin_remember {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+</style>
