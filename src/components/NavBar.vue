@@ -39,4 +39,8 @@
 
 <script setup lang="ts">
 import UserProfile from './UserProfile.vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+console.log(route.path);
 </script>

@@ -38,11 +38,11 @@ function onSubmit(form: Event) {
       <div class="signin_form">
         <form @submit.prevent="onSubmit">
           <label>E-mail: </label>
-          <input class="form-control" v-model="email" type="email"><br />
+          <input class="form-control" v-model="email" type="email" required><br />
           <label>Password: </label>
-          <input class="form-control" v-model="password" type="password"><br />
+          <input class="form-control" v-model="password" type="password" required><br />
           <label>Password Confirmation </label>
-          <input class="form-control" v-model="password_confirmation" type="password"><br />
+          <input class="form-control" v-model="password_confirmation" type="password" required><br />
           <button class="btn btn-primary" type="submit" v-show="!awaiting">Create</button>
         </form>
       </div>

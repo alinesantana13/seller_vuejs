@@ -2,6 +2,7 @@ import { createStorage, type SimpleStorage } from './storage'
 class Auth {
   private storage: SimpleStorage
   readonly apiUrl: string = import.meta.env.VITE_API_SERVER_URL;
+  private errorMessage: string | null = null;
 
   constructor(persistent = false) {
     this.storage = createStorage(persistent)
@@ -23,7 +24,7 @@ class Auth {
 
   failure(response: Response, onFailure: () => void) {
     response.json().then((json) => {
-      console.log(json.message)
+      this.errorMessage = json.message;
       onFailure()
     })
   }
@@ -73,7 +74,7 @@ class Auth {
       } else {
         this.failure(response, onFailure)
       }
-    })
+    });
   }
 
   async signUp(email: string, password: string, password_confirmation: string, onSuccess: () => void, onFailure: () => void) {
@@ -102,5 +103,9 @@ class Auth {
       }
     })
   }
+
+  getErrorMessage(): string | null {
+    return this.errorMessage;
+  };
 }
 export { Auth }
