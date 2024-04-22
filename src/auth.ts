@@ -22,7 +22,10 @@ class Auth {
   }
 
   failure(response: Response, onFailure: () => void) {
-    onFailure()
+    response.json().then((json) => {
+      console.log(json.message)
+      onFailure()
+    })
   }
 
   currentUser() {
@@ -49,7 +52,7 @@ class Auth {
   }
 
   async signIn(email: string, password: string, onSuccess: () => void, onFailure: () => void) {
-    const endpoint = '/sign_in';
+    const endpoint = 'sign_in';
 
     const body = {
       login: {
@@ -74,13 +77,14 @@ class Auth {
   }
 
   async signUp(email: string, password: string, password_confirmation: string, onSuccess: () => void, onFailure: () => void) {
-    const endpoint = '/sign_up';
+    const endpoint = 'sign_up';
 
     const body = {
       user: {
         email,
         password,
-        password_confirmation
+        password_confirmation,
+        role: "seller"
       }
     }
     fetch(`${this.apiUrl}/${endpoint}`, {
