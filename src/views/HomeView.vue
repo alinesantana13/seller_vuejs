@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import UserProfile from '../components/UserProfile.vue'
 import NavBar from '@/components/NavBar.vue';
 </script>
 <template>
@@ -8,6 +7,15 @@ import NavBar from '@/components/NavBar.vue';
     <NavBar />
   </header>
   <main>
-    <UserProfile />
+    <div class="container_home">
+      <h1>Seja bem-vindo!</h1>
+    </div>
   </main>
 </template>
+
+<style stup>
+.container_home {
+  color: white;
+  margin: 10px
+}
+</style>

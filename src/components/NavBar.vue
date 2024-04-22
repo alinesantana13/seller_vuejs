@@ -12,7 +12,7 @@
             <RouterLink class="nav-link active" aria-current="page" to="/">Home</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link active" to="/about">About</RouterLink>
+            <RouterLink class="nav-link active" to="/about">Products</RouterLink>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -31,11 +31,12 @@
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <UserProfile />
       </div>
     </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+import UserProfile from './UserProfile.vue';
+</script>

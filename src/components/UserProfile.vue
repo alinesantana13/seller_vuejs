@@ -15,22 +15,21 @@ const signOut = function () {
 <template>
   <main>
     <template v-if="isLoggedIn">
-      <h3>
-        Hi, {{ currentUser && currentUser.email }}
-      </h3>
-      <br />
-      <nav>
-        <a @click="signOut">Sign Out</a>
-      </nav>
+      <ul class="navbar-nav">
+        <li class="nav-item p-1">
+          Hi, {{ currentUser && currentUser.email }}
+        </li>
+        <li><a class="btn btn-primary" @click="signOut">Sign Out</a></li>
+      </ul>
     </template>
     <template v-else>
-      <h3>Please log in to have access</h3>
-      <br />
-      <nav>
-        <RouterLink :to="{ name: 'signin' }">
-          Sign In
-        </RouterLink>
-      </nav>
+      <ul class="navbar-nav">
+        <li>
+          <RouterLink class="btn btn-primary" :to="{ name: 'signin' }">
+            Sign In
+          </RouterLink>
+        </li>
+      </ul>
     </template>
   </main>
 </template>

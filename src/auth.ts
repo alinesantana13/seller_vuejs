@@ -53,8 +53,34 @@ class Auth {
 
     const body = {
       login: {
-        email: email,
-        password: password
+        email,
+        password,
+      }
+    }
+    fetch(`${this.apiUrl}/${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }).then((response) => {
+      if (response.ok) {
+        this.success(response, onSuccess)
+      } else {
+        this.failure(response, onFailure)
+      }
+    })
+  }
+
+  async signUp(email: string, password: string, password_confirmation: string, onSuccess: () => void, onFailure: () => void) {
+    const endpoint = '/sign_up';
+
+    const body = {
+      user: {
+        email,
+        password,
+        password_confirmation
       }
     }
     fetch(`${this.apiUrl}/${endpoint}`, {
