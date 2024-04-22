@@ -1,6 +1,7 @@
 import { createStorage, type SimpleStorage } from './storage'
 class Auth {
   private storage: SimpleStorage
+  readonly apiUrl: string = import.meta.env.VITE_API_SERVER_URL;
 
   constructor(persistent = false) {
     this.storage = createStorage(persistent)
@@ -48,13 +49,15 @@ class Auth {
   }
 
   async signIn(email: string, password: string, onSuccess: () => void, onFailure: () => void) {
+    const endpoint = '/sign_in';
+
     const body = {
       login: {
         email: email,
         password: password
       }
     }
-    fetch("http://localhost:3000/sign_in", {
+    fetch(`${this.apiUrl}/${endpoint}`, {
       method: "POST",
       headers: {
         "Accept": "application/json",
