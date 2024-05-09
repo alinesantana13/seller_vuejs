@@ -1,6 +1,6 @@
 <template>
   <header>
-    <NavBar />
+    <NavBar :items="['Home', 'Products']" />
   </header>
   <main>
     <div class="container_profile">
