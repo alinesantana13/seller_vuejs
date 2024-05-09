@@ -1,23 +1,14 @@
 <script setup lang="ts">
-import { Auth } from '../auth'
-import { ref } from 'vue'
+const props = defineProps<{ isLoggedIn: boolean, currentUser: { email: string | null }, signOut: () => void }>();
 
-const auth = new Auth()
-
-const isLoggedIn = ref(auth.isLoggedIn())
-const currentUser = ref(auth.currentUser())
-
-const signOut = function () {
-  auth.signOut(() => isLoggedIn.value = auth.isLoggedIn())
-}
 </script>
 
 <template>
   <main>
-    <template v-if="isLoggedIn">
+    <template v-if="props.isLoggedIn">
       <ul class="navbar-nav">
         <li class="nav-item p-1">
-          Hi, {{ currentUser && currentUser.email }}
+          Hi, {{ props.currentUser && props.currentUser.email }}
         </li>
         <li><a class="btn btn-primary" @click="signOut">Sign Out</a></li>
       </ul>

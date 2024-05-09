@@ -2,19 +2,18 @@
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Auth } from '../auth'
+import NavBar from '../components/NavBar.vue';
 
 const router = useRouter()
 
 const awaiting = ref(false)
 
 const email = defineModel<string>('email')
-
 const password = defineModel<string>('password')
-
 const password_confirmation = defineModel<string>('password_confirmation')
 
 function onSubmit(form: Event) {
-  let auth = new Auth()
+  const auth = new Auth()
   awaiting.value = true
   auth.signUp(email.value || ''
     , password.value || '',
@@ -30,6 +29,9 @@ function onSubmit(form: Event) {
 </script>
 
 <template>
+  <header>
+    <NavBar :items="['Home']" />
+  </header>
   <div class="container_signin">
     <div class="container_signin_center signup">
       <div class="signin_title">

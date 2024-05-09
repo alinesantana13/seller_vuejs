@@ -3,6 +3,7 @@ class Auth {
   private storage: SimpleStorage
   readonly apiUrl: string = import.meta.env.VITE_API_SERVER_URL;
   private errorMessage: string | null = null;
+  private successMessage: string | null = null;
 
   constructor(persistent = false) {
     this.storage = createStorage(persistent)
@@ -18,6 +19,12 @@ class Auth {
     response.json().then((json) => {
       this.storage.store('token', json.token)
       this.storage.store('email', json.email)
+      onSuccess()
+    })
+  }
+  successThen(response: Response, onSuccess: () => void) {
+    response.json().then((json) => {
+      this.successMessage = json.message;
       onSuccess()
     })
   }
@@ -65,7 +72,8 @@ class Auth {
       method: "POST",
       headers: {
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "X-API-KEY": import.meta.env.VITE_API_KEY
       },
       body: JSON.stringify(body)
     }).then((response) => {
@@ -78,34 +86,38 @@ class Auth {
   }
 
   async signUp(email: string, password: string, password_confirmation: string, onSuccess: () => void, onFailure: () => void) {
-    const endpoint = 'sign_up';
+    const endpoint = 'new';
 
     const body = {
       user: {
         email,
         password,
-        password_confirmation,
-        role: "seller"
+        password_confirmation
       }
     }
     fetch(`${this.apiUrl}/${endpoint}`, {
       method: "POST",
       headers: {
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "X-API-KEY": import.meta.env.VITE_API_KEY
       },
       body: JSON.stringify(body)
     }).then((response) => {
       if (response.ok) {
-        this.success(response, onSuccess)
+        this.successThen(response, onSuccess);
       } else {
-        this.failure(response, onFailure)
+        this.failure(response, onFailure);
       }
     })
   }
 
   getErrorMessage(): string | null {
     return this.errorMessage;
+  };
+
+  getSuccessMessage(): string | null {
+    return this.successMessage;
   };
 }
 export { Auth }
