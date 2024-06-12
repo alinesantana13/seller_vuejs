@@ -1,7 +1,4 @@
 <template>
-  <header>
-    <NavBar :items="['Home', 'Products']" />
-  </header>
   <main>
     <div class="container_profile">
       <div>
@@ -15,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import NavBar from '../components/NavBar.vue';
 import { Auth } from '../auth'
 import { ref } from 'vue'
 

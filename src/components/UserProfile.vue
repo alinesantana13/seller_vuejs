@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{ isLoggedIn: boolean, currentUser: { email: string | null }, signOut: () => void }>();
+interface CurrentUser {
+  email: string | null;
+}
+const props = defineProps<{ isLoggedIn: boolean, currentUser: CurrentUser | null, signOut: () => void }>();
 
 </script>
 
@@ -8,7 +11,9 @@ const props = defineProps<{ isLoggedIn: boolean, currentUser: { email: string | 
     <template v-if="props.isLoggedIn">
       <ul class="navbar-nav">
         <li class="nav-item p-1">
-          Hi, {{ props.currentUser && props.currentUser.email }}
+          <p v-if="currentUser">
+            Hi, {{ props.currentUser && props.currentUser.email }}
+          </p>
         </li>
         <li><a class="btn btn-primary" @click="signOut">Sign Out</a></li>
       </ul>

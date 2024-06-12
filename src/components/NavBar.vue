@@ -3,15 +3,16 @@ import UserProfile from './UserProfile.vue';
 import { useRoute } from 'vue-router';
 import { ref, watch, defineProps } from 'vue';
 import { Auth } from '../auth'
-
+interface CurrentUser {
+  email: string | null;
+}
 
 const route = useRoute();
-console.log(route.path);
 
 const auth = new Auth()
 
 const isLoggedIn = ref(auth.isLoggedIn())
-const currentUser = ref(auth.currentUser())
+const currentUser = ref<CurrentUser | null>(auth.currentUser());
 
 const signOut = function () {
   auth.signOut(() => isLoggedIn.value = auth.isLoggedIn())
