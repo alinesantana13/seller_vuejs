@@ -86,3 +86,11 @@ body {
   background-image: url('../assets/images/seller.jpg');
   background-size: cover;
 }
+
+.store_error {
+  background-color: aliceblue;
+  color: red;
+  width: 400px;
+  padding: 1rem;
+  border-radius: 1rem;
+}

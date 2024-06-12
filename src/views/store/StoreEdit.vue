@@ -12,7 +12,7 @@
       <button class="btn btn-primary" @click="goBack">
         To go back</button>
     </div>
-    <div v-else-if="error">
+    <div class="store_error" v-else-if="error">
       {{ error }}
     </div>
     <div v-else>

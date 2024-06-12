@@ -43,13 +43,13 @@ class Store {
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao buscar as lojas");
+        throw new Error("Error when searching for the store");
       }
       const data = await response.json();
       return data;
 
     } catch (error) {
-      console.error("Erro ao buscar as lojas:", error);
+      console.error("Error when searching for the store:", error);
       throw error;
     }
   }
@@ -76,13 +76,13 @@ class Store {
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao buscar as lojas");
+        throw new Error("Error when searching for the store");
       }
       const data = await response.json();
       return data;
 
     } catch (error) {
-      console.error("Erro ao buscar as lojas:", error);
+      console.error("Error when searching for the store:", error);
       throw error;
     }
   }

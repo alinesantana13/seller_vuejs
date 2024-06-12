@@ -78,14 +78,6 @@ const viewStore = () => {
   margin-left: 1rem;
 }
 
-.store_error {
-  background-color: aliceblue;
-  color: red;
-  width: 300px;
-  padding: 1rem;
-  border-radius: 1rem;
-}
-
 .store_name {
   color: white;
 }
