@@ -1,17 +1,17 @@
 <template>
   <div class="store_container_edit">
-    <h1>Edit Store</h1>
-    <div v-if="store">
-      <form @submit.prevent="updateStore">
+    <h1>Create Store</h1>
+    <div v-if="!error">
+      <form @submit.prevent="createStore">
         <div>
           <label class="" for="name">Name: </label>
-          <input class="form-control w-50 mb-3" type="text" id="name" v-model="store.name" />
+          <input class="form-control w-50 mb-2" type="text" id="name" v-model="storeName" />
         </div>
         <div>
-          <label class="" for="image">Image: </label>
-          <input class="" type="file" id="image" @change="handleFileUpdate" />
+          <label for="image">Image: </label>
+          <input class="" type="file" id="image" @change="handleFileCreate" />
         </div>
-        <button class="btn btn-success mt-4 mb-2" type="submit">Update Store</button>
+        <button class="btn btn-success mb-2" type="submit">Create</button>
       </form>
       <button class="btn btn-primary" @click="goBack">
         To go back</button>
@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { Store } from '../../store';
 
 interface StoreItem {
@@ -38,54 +38,38 @@ interface StoreItem {
 
 const storeInstance = new Store();
 
-const store = ref<StoreItem | null>(null);
+const storeName = ref<string>('');
 const error = ref<string | null>(null);
 const selectedFile = ref<File | null>(null);
 
-const route = useRoute();
 const router = useRouter();
 
-const fetchStore = async (id: number) => {
-  try {
-    const response = await storeInstance.GetStore(id);
-    store.value = response;
-  } catch (err: any) {
-    error.value = err.toString();
-  }
-};
-
-const handleFileUpdate = (event: Event) => {
+const handleFileCreate = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files.length > 0) {
     selectedFile.value = target.files[0];
   }
 };
 
-const updateStore = async () => {
-  if (!store.value) return;
+const createStore = async () => {
+  if (!storeName.value) {
+    error.value = "Store name is required.";
+    return;
+  }
 
   const formData = new FormData();
-  formData.append('store[name]', store.value.name);
+  formData.append('store[name]', storeName.value);
   if (selectedFile.value) {
     formData.append('store[image]', selectedFile.value);
   }
 
   try {
-    await storeInstance.UpdateStore(store.value.id, formData);
-    router.push(`/stores/${store.value.id}`);
+    const newStore = await storeInstance.CreateStore(formData);
+    router.push(`/stores/${newStore.id}`);
   } catch (err: any) {
     error.value = err.toString();
   }
 };
-
-onMounted(() => {
-  const id = Number(route.params.id);
-  if (!isNaN(id)) {
-    fetchStore(id);
-  } else {
-    error.value = "Invalid store ID.";
-  }
-});
 
 const goBack = () => {
   router.back();

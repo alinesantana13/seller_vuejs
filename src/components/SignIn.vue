@@ -2,7 +2,6 @@
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { Auth } from '../auth'
-import NavBar from '../components/NavBar.vue';
 import ErrorMessages from './ErrorMessages.vue';
 
 const router = useRouter()
@@ -33,15 +32,9 @@ function onSubmit(form: Event) {
 let success = ref("");
 success.value = auth.getSuccessMessage();
 console.log(success.value);
-
-// const userSignUp = ref(new Auth().currentUser());
-// console.log(userSignUp.value);
 </script>
 
 <template>
-  <header>
-    <NavBar :items="['Home']" />
-  </header>
   <div class="container_signin">
     <div class="container_signin_center">
       <div v-if="messageVerify">

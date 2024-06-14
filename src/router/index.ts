@@ -5,8 +5,12 @@ import SignUp from '@/components/SignUp.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import StoresView from '@/views/StoresView.vue'
 import StoreView from '@/views/StoreView.vue'
+import StoreNew from '@/views/store/StoreNew.vue'
 import StoreEdit from '@/views/store/StoreEdit.vue'
 import ProductsView from '@/views/ProductsView.vue'
+import { Auth } from '../auth'; // Importe sua classe de autenticação
+
+const auth = new Auth();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,29 +41,55 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: ProfileView
+      component: ProfileView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/stores',
       name: 'stores',
-      component: StoresView
+      component: StoresView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/stores/:id',
       name: 'store',
-      component: StoreView
+      component: StoreView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/stores/new',
+      name: 'storeNew',
+      component: StoreNew,
+      meta: { requiresAuth: true }
     },
     {
       path: '/stores/:id/edit',
-      name: 'store/edit',
-      component: StoreEdit
+      name: 'storeEdit',
+      component: StoreEdit,
+      meta: { requiresAuth: true }
     },
     {
       path: '/products',
       name: 'products',
-      component: ProductsView
+      component: ProductsView,
+      meta: { requiresAuth: true }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!auth.isLoggedIn()) {
+      next({
+        path: '/signin',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router
