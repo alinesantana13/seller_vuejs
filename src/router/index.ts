@@ -7,7 +7,10 @@ import StoresView from '@/views/StoresView.vue'
 import StoreView from '@/views/StoreView.vue'
 import StoreNew from '@/views/store/StoreNew.vue'
 import StoreEdit from '@/views/store/StoreEdit.vue'
-import ProductsView from '@/views/ProductsView.vue'
+import ListProduct from '@/components/product/ListProduct.vue'
+import NewProduct from '@/components/product/NewProduct.vue'
+import EditProduct from '@/components/product/EditProduct.vue'
+import UnitProduct from '@/components/product/UnitProduct.vue'
 import { Auth } from '../auth'; // Importe sua classe de autenticação
 
 const auth = new Auth();
@@ -51,12 +54,6 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/stores/:id',
-      name: 'store',
-      component: StoreView,
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/stores/new',
       name: 'storeNew',
       component: StoreNew,
@@ -69,11 +66,32 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/products',
-      name: 'products',
-      component: ProductsView,
-      meta: { requiresAuth: true }
-    }
+      path: '/stores/:id/',
+      component: StoreView,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '',
+          component: ListProduct,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'products/:productId',
+          component: UnitProduct,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'products/:productId/edit',
+          component: EditProduct,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'products/new',
+          component: NewProduct,
+          meta: { requiresAuth: true }
+        }
+      ]
+    },
   ]
 })
 

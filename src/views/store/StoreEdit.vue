@@ -28,17 +28,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Store } from '../../store';
-
-interface StoreItem {
-  id: number;
-  name: string;
-  image?: string;
-}
+import { Store } from '../../requests/store';
+import type { IStore } from '../../interfaces/interfaces';
 
 const storeInstance = new Store();
 
-const store = ref<StoreItem | null>(null);
+const store = ref<IStore | null>(null);
 const error = ref<string | null>(null);
 const selectedFile = ref<File | null>(null);
 

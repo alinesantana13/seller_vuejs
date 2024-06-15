@@ -20,11 +20,20 @@
         <div v-else class="col-lg-3 col-md-3 col-sm-3 col-6">
           <img class="store_image mb-4" src="../assets/images/icon-store.png" />
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-12 store_buttons">
-          <button class="btn btn-warning store_button" @click="viewStore">Edit</button>
-          <button class="btn btn-secondary store_button">Desativar</button>
-          <button class="btn btn-danger store_button" @click="deleteStore">Delete</button>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 store_buttons" v-if="currentRoute">
+          <div>
+            <input class="form-control" type="text" placeholder="Search" />
+          </div>
+          <div>
+            <button class="btn btn-warning store_button" @click="viewStore">Edit</button>
+            <button class="btn btn-secondary store_button">Desativar</button>
+            <button class="btn btn-danger store_button" @click="deleteStore">Delete</button>
+          </div>
         </div>
+      </div>
+
+      <div>
+        <router-view />
       </div>
     </div>
     <div class="store_error" v-else-if="error">
@@ -39,18 +48,21 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Store } from '../store';
+import { Store } from '../requests/store';
+import { Product } from '@/requests/product';
+import type { IStore, IPagination, IProduct } from '../interfaces/interfaces';
 
-interface StoreItem {
-  id: number;
-  name: string;
-  image_url: string;
-}
 
 const storeInstance = new Store();
+const productInstance = new Product();
 
-const store = ref<StoreItem | null>(null);
+const store = ref<IStore | null>(null);
 const error = ref<string | null>(null);
+
+const products = ref<IProduct[] | null>(null);
+const paginationProduct = ref<IPagination[] | null>(null);
+const errorProduct = ref<string | null>(null)
+const currentePageProduct = ref(1);
 
 const imageUrl = computed(() => {
   return store.value && store.value.image_url ? `http://localhost:3000${store.value.image_url}` : '';
@@ -67,17 +79,33 @@ const fetchStore = async (id: number) => {
 };
 
 const route = useRoute();
+
+const fetchProduct = async (id: number) => {
+  try {
+    const response = await productInstance.GetProducts(id, currentePageProduct.value);
+    products.value = await response.result.products;
+    if (response.result.pagination) {
+      paginationProduct.value = response.result.pagination;
+    }
+    return response;
+  } catch (err: any) {
+    errorProduct.value = err.toString()
+  }
+};
+
 const router = useRouter();
+const id = Number(route.params.id);
 
 onMounted(() => {
-  const id = Number(route.params.id);
   if (!isNaN(id)) {
     fetchStore(id);
+    fetchProduct(id);
   } else {
     error.value = "Invalid store ID.";
   }
 });
 
+const currentRoute = computed(() => route.path === `/stores/${id}`);
 
 const viewStore = () => {
   if (store.value) {
@@ -87,11 +115,15 @@ const viewStore = () => {
 
 const deleteStore = async () => {
   const id = Number(route.params.id);
-  console.log(id)
-  const response = await storeInstance.DeleteStore(id);
-  console.log(response);
-
-  router.push(`/stores`);
+  try {
+    const response = await storeInstance.DeleteStore(id);
+    if (!response) {
+      console.error("Erro");
+    }
+    router.push(`/stores`);
+  } catch (error) {
+    error.value = "Error";
+  }
 };
 
 const goBack = () => {
@@ -116,7 +148,7 @@ const goBack = () => {
   margin-right: 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   ;
 }
 
@@ -132,5 +164,10 @@ const goBack = () => {
 
 .store_image {
   width: 100px;
+}
+
+.stores_card_product {
+  margin: 1rem;
+  ;
 }
 </style>

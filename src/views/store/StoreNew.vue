@@ -28,13 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { Store } from '../../store';
-
-interface StoreItem {
-  id: number;
-  name: string;
-  image?: string;
-}
+import { Store } from '../../requests/store';
 
 const storeInstance = new Store();
 

@@ -10,10 +10,10 @@
     </div>
     <div>
       <!-- <vue-awesome-paginate :total-items="paginationItems.value.count" :items-per-page="paginationItems.value.per_page"
-        :max-pages-shown="5" v-model="currentPage" :on-click="onClickHandler" /> -->
+        :max-pages-shown="5" v-model="currentPageStore" :on-click="onClickHandler" /> -->
     </div>
     <div class="stores_button">
-      <button class="btn btn-success" @click="viewStore">New Store</button>
+      <button class="btn btn-success" @click="newStore">New Store</button>
     </div>
   </div>
 </template>
@@ -21,38 +21,23 @@
 <script setup lang="ts">
 import CardStore from '../components/CardStore.vue';
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { Store } from '../store';
-
-interface StoreItem {
-  id: number;
-  name: string;
-  image_url: string;
-}
-
-interface PaginationItems {
-  current: number,
-  per_page: number,
-  pages: number,
-  count: number,
-  previous: number,
-  next: number
-}
+import { useRouter, useRoute } from 'vue-router';
+import { Store } from '../requests/store';
+import type { IStore, IPagination } from '../interfaces/interfaces';
 
 const storeInstance = new Store();
 
-const stores = ref<StoreItem[] | null>(null);
-const paginationItems = ref<PaginationItems[] | null>(null);
+const stores = ref<IStore[] | null>(null);
+const paginationItems = ref<IPagination[] | null>(null);
 const error = ref<string | null>(null)
-const currentPage = ref(1);
+const currentePageStore = ref(1);
 
 const fetchStores = async () => {
   try {
-    const response = await storeInstance.GetStores(currentPage.value);
+    const response = await storeInstance.GetStores(currentePageStore.value);
     stores.value = await response.result.stores;
     if (response.result.pagination) {
       paginationItems.value = response.result.pagination;
-      console.log(paginationItems.value)
     }
     return response;
   } catch (err: any) {
@@ -66,14 +51,9 @@ onMounted(() => {
 
 const router = useRouter();
 
-const viewStore = () => {
+const newStore = () => {
   router.push(`/stores/new`);
 };
-
-const onClickHandler = (page: number) => {
-  console.log(page);
-};
-
 
 </script>
 
