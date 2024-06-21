@@ -2,13 +2,13 @@
   <div class="card_store" v-if="props.product.store_id">
     <router-link :to="`/stores/${props.product.store_id}/products/${props.product.id}`" class="store-link">
       <div class="row">
-        <div class="col-3 d-flex justify-content-end" v-if="imageUrl">
+        <div class="col-6 d-flex justify-content-center align-items-center" v-if="imageUrl">
           <img class="card_store_image" :src="imageUrl" />
         </div>
-        <div class="col-3 d-flex justify-content-end" v-else>
-          <img class="card_store_image" src="../../assets/images/icon-store.png" />
+        <div class="col-6 d-flex justify-content-center align-items-center" v-else>
+          <img class="card_store_image" src="../../assets/images/burger.jpg" />
         </div>
-        <div class="col-9">
+        <div class="col-6">
           <div>
             <p>{{ product.title }}</p>
             <p>{{ product.price }}</p>
@@ -34,16 +34,33 @@ const imageUrl = computed(() => {
 
 <style scoped>
 .card_store {
-  color: #000000;
   background-color: #FFFFFF;
-  width: 300px;
-  height: 120px;
+  width: 350px;
   border-radius: 1rem;
-  padding: 1rem 0.5rem 0 2rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .card_store_image {
-  width: 70px;
+  width: 90px;
   height: 70px;
+  border-radius: 0.5rem;
+}
+
+.store-link {
+  transition: transform 0.4s ease;
+  text-decoration: none;
+  color: #000000;
+  border-radius: 8px;
+  font-size: 17px;
+}
+
+.card_store:hover {
+  background-color: #d1cecd;
+}
+
+.store-link:active {
+  position: relative;
+  top: 1px;
 }
 </style>

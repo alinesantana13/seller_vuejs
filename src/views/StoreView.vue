@@ -4,9 +4,12 @@
       <div class="col-lg-2 col-md-3 col-sm-3 col-6">
         <h1>Store</h1>
       </div>
-      <div class="col-lg-2 col-md-3 col-sm-3 col-6">
-        <button class="btn btn-primary" @click="goBack">
-          To go back</button>
+      <div class="col-lg-10 col-md-9 col-sm-9 col-6 store_container_nav">
+        <nav class="store_nav">
+          <router-link :to="`/stores`" class="store-link">Dashboard</router-link>
+          <router-link :to="`/stores/${id}`" class="store-link">Products</router-link>
+          <router-link :to="`/stores/${id}/orders`" class="store-link">Orders</router-link>
+        </nav>
       </div>
     </div>
     <div class="store_content" v-if="store">
@@ -125,10 +128,6 @@ const deleteStore = async () => {
     error.value = "Error";
   }
 };
-
-const goBack = () => {
-  router.push(`/stores`);
-};
 </script>
 
 <style scoped>
@@ -140,6 +139,18 @@ const goBack = () => {
 
 .store_header {
   margin-bottom: 1rem;
+}
+
+.store_container_nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.store_nav {
+  display: flex;
+  gap: 1rem;
 }
 
 .store_content {

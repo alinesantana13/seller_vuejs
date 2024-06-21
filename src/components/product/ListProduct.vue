@@ -1,9 +1,24 @@
 <template>
-  <div>
-    <div class="stores_card_product" v-for="product in products" :key="product.id">
-      <CardProduct :product="product" :store="store" />
+  <div class="mx-4">
+    <hr />
+    <div class="row mb-3">
+      <div class="col-sm-10 col-12 store_products_title">
+        <h4>Products</h4>
+      </div>
+      <div class="col-sm-2 col-12 store_products_title_button">
+        <button class="btn btn-primary" @click="newProduct">New Product</button>
+      </div>
     </div>
-    <button class="btn btn-primary" @click="newProduct">New Product</button>
+    <hr />
+    <div class="row" v-if="products">
+      <div class="stores_card_products col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center"
+        v-for="product in products" :key="product.id">
+        <CardProduct :product="product" :store="store" />
+      </div>
+    </div>
+    <div v-else>
+      <p>Loading</p>
+    </div>
   </div>
 </template>
 
@@ -72,4 +87,14 @@ const newProduct = () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.stores_card_products {
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+.store_products_title {
+  display: flex;
+  justify-content: center;
+}
+</style>

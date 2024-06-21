@@ -1,5 +1,6 @@
 <template>
   <div class="unit_product mt-4">
+    <hr />
     <div class="row">
       <div class="col-12 d-flex justify-content-center" v-if="imageUrl">
         <img class="unit_product_image" :src="imageUrl" />
@@ -8,11 +9,13 @@
         <img class="unit_product_image" src="../../assets/images/icon-store.png" />
       </div>
     </div>
-    <div>
+    <hr />
+    <div class="d-flex justify-content-center">
       <div class="" v-if="product">
         <div>
           <h5>{{ product.title }}</h5>
-          <p>{{ product.price }}</p>
+          <p>Ótimo produto</p>
+          <p>$ {{ product.price }}</p>
         </div>
         <div class="unit_product_buttons">
           <button class="btn btn-warning store_button" @click="editProduct">Edit</button>

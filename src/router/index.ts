@@ -12,6 +12,7 @@ import NewProduct from '@/components/product/NewProduct.vue'
 import EditProduct from '@/components/product/EditProduct.vue'
 import UnitProduct from '@/components/product/UnitProduct.vue'
 import { Auth } from '../auth'; // Importe sua classe de autenticação
+import ListOrder from '@/components/order/ListOrder.vue'
 
 const auth = new Auth();
 
@@ -88,6 +89,11 @@ const router = createRouter({
         {
           path: 'products/new',
           component: NewProduct,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'orders',
+          component: ListOrder,
           meta: { requiresAuth: true }
         }
       ]
