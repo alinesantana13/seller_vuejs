@@ -21,7 +21,7 @@ const signOut = function () {
 const propsItems = defineProps<{ items: Array<string> }>();
 
 watch([isLoggedIn, currentUser], () => {
-  shouldShowNavbar.value = isLoggedIn.value; // ou adicione outra lógica se precisar
+  shouldShowNavbar.value = isLoggedIn.value;
 });
 
 const shouldShowNavbar = ref(false);

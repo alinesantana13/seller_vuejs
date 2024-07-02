@@ -28,8 +28,16 @@ export interface IPagination {
 }
 
 export interface IOrder {
-  orderId: number;
-  userId: number;
-  productIds: number[];
-  orderDate: Date;
+  id: number;
+  buyer_id: number;
+  store_id: number;
+  state: string;
+  payment_status: string;
+  created_at: Date;
+  total_order_items: string;
+  order_items: {
+    product_title: string;
+    amount: number;
+    price: number;
+  }[];
 }

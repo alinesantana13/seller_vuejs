@@ -1,35 +1,52 @@
 <template>
-  <div class="card_order">
+  <div class="card_order" v-if="props.order">
     <div class="row">
-      <div class="col-10">
+      <div class="col-9">
         <h5>Order</h5>
       </div>
-      <div class="col-2">
-        <p>id</p>
+      <div class="col-3">
+        <p>Number {{ props.order.id }}</p>
       </div>
     </div>
     <div>
       <hr />
+      <p class="d-flex justify-content-center">{{ props.order.payment_status }}</p>
+      <hr />
       <div>
-        <div class="row">
+        <div class="row" v-for="(order_items, index) in props.order.order_items" :key="index">
           <div class="col-3">
             <img src="../../assets/images/burger.jpg" style="width: 50px;" />
           </div>
           <div class="col-9">
-            <p>Lasanha</p>
-            <p>$ 12.00 x 10 = $120.00</p>
+            <p>{{ order_items.product_title }}</p>
+            <p>$ {{ (order_items.price / order_items.amount).toFixed(2) }} x {{ order_items.amount }} = {{
+              order_items.price }}</p>
           </div>
         </div>
       </div>
       <hr />
     </div>
-    <p>Subtotal</p>
-    <p>Delivery fee</p>
-    <p>Total</p>
+    <div class="card_order_summary">
+      <p>Subtotal</p>
+      <p>{{ order.total_order_items }}</p>
+    </div>
+    <div class="card_order_summary">
+      <p>Delivery fee</p>
+      <p>$ 0,00</p>
+    </div>
+    <div class="card_order_summary">
+      <p>Total</p>
+      <p>{{ order.total_order_items }}</p>
+    </div>
   </div>
+  <div v-else>Loading...</div>
 </template>
 
 <script setup lang="ts">
+import { defineProps } from 'vue';
+import type { IOrder } from '@/interfaces/interfaces';
+
+const props = defineProps<{ order: IOrder }>();
 
 </script>
 
@@ -40,5 +57,10 @@
   width: 300px;
   border-radius: 1rem;
   padding: 1rem 1rem 0.5rem 1rem;
+}
+
+.card_order_summary {
+  display: flex;
+  justify-content: space-between
 }
 </style>

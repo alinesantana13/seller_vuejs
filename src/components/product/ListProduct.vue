@@ -28,7 +28,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Store } from '../../requests/store';
 import { Product } from '@/requests/product';
-import type { IStore, IPagination, IProduct } from '../interfaces/interfaces';
+import type { IStore, IPagination, IProduct } from '../../interfaces/interfaces';
 
 const storeInstance = new Store();
 const productInstance = new Product();

@@ -31,7 +31,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Product } from '@/requests/product';
-import type { IProduct } from '../interfaces/interfaces';
+import type { IProduct } from '@/interfaces/interfaces';
 
 const productInstance = new Product();
 const error = ref<string | null>(null);
