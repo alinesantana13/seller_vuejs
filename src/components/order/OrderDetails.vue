@@ -5,7 +5,7 @@
         <h5>Order {{ order?.id }} </h5>
       </div>
       <div class="col-5">
-        <p>[{{ order?.created_at.toLocaleDateString() }}]</p>
+        <p>[{{ formatDate(order?.created_at) }}]</p>
       </div>
     </div>
     <div>
@@ -36,9 +36,8 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import type { IOrder } from '@/interfaces/interfaces';
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { Order } from '../../requests/order.ts'
+import { ref } from 'vue';
+import { Order } from '../../requests/order'
 
 
 const props = defineProps<{ order?: IOrder }>();
@@ -47,13 +46,24 @@ const orderInstance = new Order();
 const error = ref<string | null>(null);
 
 const updateOrder = async () => {
-  try {
-    await orderInstance.UpdateOrder(props.order?.id, "accept");
-    //refresh na pagina
-  } catch (err: any) {
-    error.value = err.toString();
-    console.log(error.value);
+  if (props.order && props.order.id !== undefined) {
+    try {
+      await orderInstance.UpdateOrder(props.order.id, "accept");
+    } catch (err: any) {
+      error.value = err.toString();
+      console.log(error.value);
+    }
+  } else {
+    console.log('Order ID is undefined');
   }
+};
+
+const formatDate = (date: Date | string | undefined): string => {
+  if (!date) return '';
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+  return date.toLocaleDateString();
 };
 </script>
 

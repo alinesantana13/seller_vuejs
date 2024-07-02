@@ -5,8 +5,11 @@
       <div>
         <p>New order!</p>
       </div>
-
-      <OrderDetails :order="newOrder" />
+      <div class="orders_list">
+        <div class="order_see_list" v-for="order in newOrders" :key="order.id">
+          <OrderDetails :order="order" />
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -18,7 +21,7 @@ import OrderDetails from './OrderDetails.vue';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { Auth } from '@/auth';
 
-const newOrder = ref<IOrder>();
+const newOrders = ref<IOrder[]>([]);
 const hasNewOrder = ref(false);
 const auth = new Auth();
 const token = auth.isLoggedIn() ? auth.getFallbackToken('token') : null;
@@ -40,18 +43,9 @@ fetchEventSource(
   onmessage(msg) {
     if (msg.event === 'new-order') {
       let data = JSON.parse(msg.data)
-      console.log(data.order)
-      newOrder.value = {
-        id: data.order.id,
-        created_at: new Date(data.order.created_at),
-        buyer_id: data.order.buyer_id,
-        store_id: data.order.store_id,
-        state: data.order.state,
-        payment_status: data.order.payment_status,
-        total_order_items: data.order.total_order_items,
-        order_items: data.order.order_items
-
-      }
+      console.log(data.orders)
+      console.log(data.orders.length)
+      newOrders.value = data.orders
       hasNewOrder.value = true;
     } else {
       hasNewOrder.value = false;
@@ -69,5 +63,21 @@ fetchEventSource(
   margin-left: 1rem;
   padding: 1rem 0 1rem 1rem;
   border-radius: 0.5rem;
+}
+
+.orders_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  ;
+}
+
+.orders_see_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 </style>
