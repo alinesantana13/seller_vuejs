@@ -5,8 +5,8 @@
       <div>
         <p>New order!</p>
       </div>
-      <div class="orders_list">
-        <div class="order_see_list" v-for="order in newOrders" :key="order.id">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12 order_see_item" v-for="order in newOrders" :key="order.id">
           <OrderDetails :order="order" />
         </div>
       </div>
@@ -61,23 +61,14 @@ fetchEventSource(
   background-color: rgb(240, 208, 168);
   margin-right: 1rem;
   margin-left: 1rem;
-  padding: 1rem 0 1rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   border-radius: 0.5rem;
 }
 
-.orders_list {
+.order_see_item {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
   gap: 1rem;
-  justify-content: space-around;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  ;
-}
-
-.orders_see_list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }
 </style>

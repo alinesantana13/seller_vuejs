@@ -4,10 +4,18 @@ class Order {
   readonly apiUrl: string = import.meta.env.VITE_API_SERVER_URL;
   private auth: Auth = new Auth();
 
-  async GetOrders() {
+  async GetOrders(state?: string, id?: number | null) {
     const token = this.auth.isLoggedIn() ? this.auth.getFallbackToken('token') : null;
     try {
-      const url = new URL(`${this.apiUrl}/buyers/orders`);
+      const url = new URL(`${this.apiUrl}/buyers/orders?`);
+
+      if (state) {
+        url.searchParams.append('state', state);
+      }
+
+      if (id) {
+        url.searchParams.append('id', id.toString());
+      }
       const response = await fetch(url, {
         method: "GET",
         headers: {

@@ -1,10 +1,10 @@
 <template>
   <div class="orders_details_container">
     <div class="row">
-      <div class="col-7">
+      <div class="col-sm-6 col-12">
         <h5>Order {{ order?.id }} </h5>
       </div>
-      <div class="col-5">
+      <div class="col-sm-6 col-12 d-flex justify-content-end">
         <p>[{{ formatDate(order?.created_at) }}]</p>
       </div>
     </div>
@@ -28,15 +28,15 @@
       <p>{{ order?.total_order_items }}</p>
     </div>
     <div class="d-flex justify-content-center">
-      <button class="btn btn-primary" @click="updateOrder()">Accept</button>
+      <button class="order_details_state btn btn-primary" @click="updateOrder(nextState)"
+        :disabled="nextState === 'canceled' || nextState === 'delivered'">{{ nextState }}</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, computed, ref } from 'vue';
 import type { IOrder } from '@/interfaces/interfaces';
-import { ref } from 'vue';
 import { Order } from '../../requests/order'
 
 
@@ -45,13 +45,27 @@ const orderInstance = new Order();
 
 const error = ref<string | null>(null);
 
-const updateOrder = async () => {
+const stateTransitions: Record<string, string> = {
+  created: 'accept',
+  accepted: 'prepare',
+  preparing: 'start_delivery',
+  out_for_delivery: 'deliver',
+  delivered: 'delivered',
+  canceled: 'canceled'
+};
+
+const nextState = computed(() => {
+  if (!props.order) return '';
+  const currentState = props.order.state;
+  return stateTransitions[currentState] || '';
+});
+
+const updateOrder = async (state: string) => {
   if (props.order && props.order.id !== undefined) {
     try {
-      await orderInstance.UpdateOrder(props.order.id, "accept");
+      await orderInstance.UpdateOrder(props.order.id, state);
     } catch (err: any) {
       error.value = err.toString();
-      console.log(error.value);
     }
   } else {
     console.log('Order ID is undefined');
@@ -79,5 +93,9 @@ const formatDate = (date: Date | string | undefined): string => {
 .card_order_summary {
   display: flex;
   justify-content: space-between
+}
+
+.order_details_state {
+  text-transform: capitalize;
 }
 </style>

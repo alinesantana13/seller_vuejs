@@ -1,18 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import SignIn from '@/components/SignIn.vue'
-import SignUp from '@/components/SignUp.vue'
-import ProfileView from '@/views/ProfileView.vue'
-import StoresView from '@/views/StoresView.vue'
-import StoreView from '@/views/StoreView.vue'
-import StoreNew from '@/views/store/StoreNew.vue'
-import StoreEdit from '@/views/store/StoreEdit.vue'
-import ListProduct from '@/components/product/ListProduct.vue'
-import NewProduct from '@/components/product/NewProduct.vue'
-import EditProduct from '@/components/product/EditProduct.vue'
-import UnitProduct from '@/components/product/UnitProduct.vue'
-import { Auth } from '../auth'; // Importe sua classe de autenticação
-import ListOrder from '@/components/order/ListOrder.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import SignIn from '@/components/SignIn.vue';
+import SignUp from '@/components/SignUp.vue';
+import ProfileView from '@/views/ProfileView.vue';
+import StoresView from '@/views/StoresView.vue';
+import StoreView from '@/views/StoreView.vue';
+import StoreNew from '@/views/store/StoreNew.vue';
+import StoreEdit from '@/views/store/StoreEdit.vue';
+import ListProduct from '@/components/product/ListProduct.vue';
+import NewProduct from '@/components/product/NewProduct.vue';
+import EditProduct from '@/components/product/EditProduct.vue';
+import UnitProduct from '@/components/product/UnitProduct.vue';
+import { Auth } from '../auth';
+import ListOrders from '@/components/order/ListOrders.vue'
 
 const auth = new Auth();
 
@@ -93,7 +93,7 @@ const router = createRouter({
         },
         {
           path: 'orders',
-          component: ListOrder,
+          component: ListOrders,
           meta: { requiresAuth: true }
         }
       ]
